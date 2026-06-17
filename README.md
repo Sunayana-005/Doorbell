@@ -22,27 +22,45 @@ Two simple options:
 - Camera opens automatically
 - One circular **RING** button
 - Press to capture and process the image
-- That's it!
+- Auto-crops to face for better display
 
 ### Dashboard Page
-- View all visitor history
-- Unknown persons show "Unknown Person"
-- Known persons show their name
-- Click **SAVE PERSON** to add unknown visitors to your known faces database
 
-## Usage Flow
+#### Main View
+- Shows **current visitor only** (not history)
+- Large circular photo (auto-cropped to face)
+- Unknown persons: Click **SAVE PERSON**
+- Known persons: Shows their name
 
-1. **Start on Home Page** → Choose Doorbell or Dashboard
-2. **Doorbell Page** → Press RING button when someone arrives
-3. **Dashboard Page** → View visitors, save unknown people
+#### Known Faces View
+- Click **"Known Faces"** button (top right)
+- View all saved persons in circular format
+- Click "Back to Dashboard" to return
+
+## Features
+
+- ✅ Circular face-focused photos
+- ✅ Auto face cropping
+- ✅ Current visitor display (not full history)
+- ✅ Known faces gallery
+- ✅ Real-time updates
+- ✅ One-click save
 
 ## Design Philosophy
 
 - ✅ Minimal interface
 - ✅ Black and white only
+- ✅ Circular images
 - ✅ Simple navigation
 - ✅ Clean typography
-- ✅ No unnecessary colors or decorations
+- ✅ No unnecessary colors
+
+## Usage Flow
+
+1. Someone rings doorbell
+2. Dashboard shows their circular photo
+3. If unknown → Save them with name
+4. View all known faces in gallery
 
 ## Technology
 
@@ -50,7 +68,7 @@ Two simple options:
 - TypeScript
 - Tailwind CSS
 - Socket.IO (real-time)
-- Face detection
+- Face detection with auto-crop
 
 ## Production Notes
 

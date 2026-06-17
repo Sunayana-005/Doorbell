@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { cropToFace } from '@/lib/imageCrop';
 
 export default function DoorbellPage() {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -50,11 +51,14 @@ export default function DoorbellPage() {
         ctx.drawImage(videoRef.current, 0, 0);
         const imageData = canvas.toDataURL('image/jpeg');
 
+        // Crop to face area for better circular display
+        const croppedImage = await cropToFace(imageData);
+
         const response = await fetch('/api/process-image', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ 
-            image: imageData, 
+            image: croppedImage, 
             eventType: 'button_press' 
           }),
         });
