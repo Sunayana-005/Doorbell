@@ -37,22 +37,31 @@ export async function POST(request: NextRequest) {
     const knownFaces = await getKnownFaces();
     let isUnknown = true;
     let matchedPerson = null;
+    let bestDistance = Infinity;
 
     if (detectionResult.descriptor) {
-      // Simple comparison with known faces
+      console.log('\n=== Face Recognition ===');
+      console.log(`Comparing against ${knownFaces.length} known faces`);
+      
+      // Compare with all known faces
       for (const knownFace of knownFaces) {
         const distance = calculateEuclideanDistance(
           detectionResult.descriptor,
           knownFace.descriptor
         );
         
-        // Threshold of 0.6 (lower is more similar)
-        if (distance < 0.6) {
+        console.log(`  ${knownFace.name}: distance = ${distance.toFixed(4)}`);
+        
+        // Lower threshold for more strict matching (same image should be ~0)
+        if (distance < 0.1 && distance < bestDistance) {
           isUnknown = false;
           matchedPerson = knownFace.name;
-          break;
+          bestDistance = distance;
         }
       }
+      
+      console.log(`Result: ${isUnknown ? 'UNKNOWN' : `KNOWN (${matchedPerson})`}`);
+      console.log('======================\n');
     }
 
     // Save alert
@@ -72,8 +81,10 @@ export async function POST(request: NextRequest) {
     if (io) {
       if (isUnknown) {
         io.emit('unknown_face_alert', alert);
+        console.log('🚨 Sent unknown face alert');
       } else {
         io.emit('known_face_detected', alert);
+        console.log(`✓ Known person detected: ${matchedPerson}`);
       }
     }
 
@@ -82,6 +93,7 @@ export async function POST(request: NextRequest) {
       facesDetected,
       isUnknown,
       personName: matchedPerson,
+      matchDistance: bestDistance < Infinity ? bestDistance : null,
       timestamp,
       alert: isUnknown ? 'Alert sent to Indoor Receiver' : 'No alert needed',
     });
