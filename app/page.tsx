@@ -1,58 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import IndoorReceiver from '@/components/IndoorReceiver';
-import DoorbellCamera from '@/components/DoorbellCamera';
-import FaceManager from '@/components/FaceManager';
+import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'receiver' | 'doorbell' | 'manage'>('receiver');
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      <nav className="bg-black/30 backdrop-blur-sm border-b border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold mb-4">🔔 Smart Doorbell System</h1>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setActiveTab('receiver')}
-              className={`px-6 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'receiver'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-700/50 hover:bg-gray-700'
-              }`}
-            >
-              📺 Indoor Receiver
-            </button>
-            <button
-              onClick={() => setActiveTab('doorbell')}
-              className={`px-6 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'doorbell'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-700/50 hover:bg-gray-700'
-              }`}
-            >
-              📷 Doorbell Camera
-            </button>
-            <button
-              onClick={() => setActiveTab('manage')}
-              className={`px-6 py-2 rounded-lg font-medium transition-all ${
-                activeTab === 'manage'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-700/50 hover:bg-gray-700'
-              }`}
-            >
-              👥 Manage Faces
-            </button>
-          </div>
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="text-center space-y-8">
+        <h1 className="text-4xl font-bold text-black mb-12">Doorbell System</h1>
+        
+        <div className="flex flex-col gap-6">
+          <Link
+            href="/doorbell"
+            className="px-12 py-6 text-2xl border-2 border-black text-black hover:bg-black hover:text-white transition-colors"
+          >
+            Doorbell
+          </Link>
+          
+          <Link
+            href="/dashboard"
+            className="px-12 py-6 text-2xl border-2 border-black text-black hover:bg-black hover:text-white transition-colors"
+          >
+            Dashboard
+          </Link>
         </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {activeTab === 'receiver' && <IndoorReceiver />}
-        {activeTab === 'doorbell' && <DoorbellCamera />}
-        {activeTab === 'manage' && <FaceManager />}
-      </main>
+      </div>
     </div>
   );
 }
